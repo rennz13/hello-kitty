@@ -1,6 +1,6 @@
 import { FlowerStory } from './FlowerStory'
 import { GardenBench } from './GardenBench'
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { KittyCharacter } from './KittyCharacter'
 
 export function OutsideAdventure({bow,dress,onPlay,seated,onBench,flowersGiven,onGiftComplete,onFlowersReturn}) {
@@ -9,8 +9,10 @@ export function OutsideAdventure({bow,dress,onPlay,seated,onBench,flowersGiven,o
   const [flutter,setFlutter]=useState(0)
   useEffect(()=>{if(!intro)return;const timer=setTimeout(()=>setIntro(false),3900);return()=>clearTimeout(timer)},[intro])
   return <div className="outside-adventure">
+    <div className="garden-sun" aria-hidden="true"/>
+    <div className="garden-petals" aria-hidden="true">{[0,1,2,3,4].map(i=><i key={i} style={{'--petal-index':i}}/>)}</div>
     <svg className="outside-landscape" viewBox="0 0 900 500" preserveAspectRatio="none" aria-hidden="true">
-      <circle cx="742" cy="122" r="39" fill="#fff0bb"/><circle cx="742" cy="122" r="57" fill="#fff4d4" opacity=".3"/>
+      
       <g className="outside-cloud" fill="#fffdf6"><path d="M65 149Q57 124 86 127Q95 98 120 123Q148 111 159 137Q183 134 185 152Z"/><path d="M455 185Q448 168 470 170Q482 147 500 169Q523 160 529 180H455Z"/></g>
       <path d="M0 303Q154 194 322 286Q469 212 632 286Q789 221 900 266V500H0Z" fill="#dcebd4"/>
       <path d="M0 352Q140 290 300 349Q470 275 642 333Q808 283 900 322V500H0Z" fill="#cee2c4"/>

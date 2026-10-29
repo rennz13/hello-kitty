@@ -2165,3 +2165,88 @@ main > .topbar { padding-block: 22px; gap: 24px; }
 }
 
 .kitchen-food-selection { margin-top: 16px; }
+
+/* A sunlit pocket garden, with clear space for the two companions. */
+.room[data-room='Outside'] {
+  background: linear-gradient(180deg, #eaf5f6 0%, #f9f8e9 53%, #dce9ce 100%);
+  border: 1px solid #d5e2d1;
+  box-shadow: inset 0 1px 0 #ffffff, 0 8px 28px #81977f0a;
+}
+.room[data-room='Outside'] .room-title {
+  background: #fffef5eb;
+  border: 1px solid #ffffffbd;
+  border-radius: 16px;
+  padding: 12px 14px;
+  z-index: 6;
+}
+.room[data-room='Outside'] .room-title h2 { color: #62765d; }
+.room[data-room='Outside'] .room-title p { color: #8b9984; }
+.room[data-room='Outside'] .room-tag { color: #839576; letter-spacing: 1px; background: #f1f5e9; border: 0; }
+.garden-sun {
+  position: absolute;
+  top: 20%; right: 13%;
+  width: 54px; aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, #fff9df, #ffe8a9);
+  box-shadow: 0 0 0 12px #fff3c333, 0 0 48px 15px #fff6d86b;
+}
+.outside-landscape { position: relative; }
+.garden-bench-area { right: 6%; bottom: 12%; }
+.boy-kitty-speech {
+  bottom: 84%; right: 0;
+  width: 192px; max-width: 140%;
+  padding: 12px 15px;
+  border: 1px solid #e6e4d6;
+  border-radius: 17px 17px 5px 17px;
+  background: #fffef8f5;
+  box-shadow: 0 5px 16px #6b806a0c;
+  color: #85758b;
+  font-size: 11px; line-height: 1.65;
+}
+.boy-kitty-speech:after { left: 73%; border-color: #e6e4d6; background: #fffef8; }
+.garden-speaker { font-size: 8px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #9aa889; margin-bottom: 5px; }
+.boy-kitty-speech > span { font-size: 12px; margin-top: 3px; }
+.outside-butterfly-toy { right: auto; left: 34%; top: 33%; width: 48px; z-index: 2; }
+.room[data-room='Outside'] .room-caption {
+  left: 12px; right: 12px; bottom: 10px;
+  color: #788967;
+  font-size: 10px;
+  text-shadow: 0 1px 0 #ffffff80;
+}
+.garden-petals { position: absolute; inset: 19% 0 10%; z-index: 1; overflow: hidden; }
+.garden-petals i {
+  position: absolute; left: calc(12% + var(--petal-index) * 18%); top: -10px;
+  width: 6px; height: 9px; border-radius: 80% 10% 80% 10%;
+  background: #e8c5d76b;
+  animation: garden-petal-drift 17s linear infinite;
+  animation-delay: calc(var(--petal-index) * -3.3s);
+}
+@keyframes garden-petal-drift {
+  0% { transform: translate(0,-10px) rotate(0); opacity: 0; }
+  15%,75% { opacity: .7; }
+  100% { transform: translate(45px,360px) rotate(240deg); opacity: 0; }
+}
+@media(max-width:650px) {
+  .room[data-room='Outside'] { height: 390px; border-radius: 21px; }
+  .room[data-room='Outside'] .room-title { top: 11px; left: 11px; right: 11px; padding: 10px 11px; gap: 8px; }
+  .room[data-room='Outside'] .room-title h2 { font-size: 17px; }
+  .room[data-room='Outside'] .room-title p { font-size: 8px; line-height: 1.5; max-width: 170px; }
+  .room[data-room='Outside'] .room-tag { font-size: 6px !important; padding: 7px; letter-spacing: .6px; }
+  .garden-sun { width: 42px; top: 22%; right: 12%; }
+  .garden-bench-area { right: 4%; bottom: 12%; width: 49%; min-width: 150px; }
+  .boy-kitty-speech { bottom: 87%; right: 0; width: 166px; padding: 10px 12px; font-size: 10px; line-height: 1.6; }
+  .outside-butterfly-toy { left: 34%; top: 30%; width: 40px; }
+  .room[data-room='Outside'] .room-caption { font-size: 8px; bottom: 12px; }
+}
+@media(prefers-reduced-motion:reduce) { .garden-petals i { animation: none; display: none; } }
+
+/* Leave the garden bench reachable beside Kitty's standing tap target. */
+.room[data-room='Outside'] .moving-kitty[data-destination='center'] {
+  width: clamp(105px, 18vw, 145px);
+}
+@media(max-width:650px) {
+  .room[data-room='Outside'] .moving-kitty[data-destination='center'] {
+    width: clamp(90px, 27vw, 115px);
+    left: 44%;
+  }
+}

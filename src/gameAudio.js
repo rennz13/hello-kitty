@@ -78,8 +78,16 @@ export class KittyAudio {
   play(kind = 'click') {
     if (!this.enabled || this.context?.state !== 'running') return
     const now = this.context.currentTime
-    if (now - this.lastEffect < 0.065) return
+    if (kind !== 'bite' && now - this.lastEffect < 0.065) return
     this.lastEffect = now
+    if (kind === 'bite') {
+      // Two soft little chomps followed by a happy music-box sparkle.
+      this.tone(65, now, 0.09, 0.075, 'triangle', 0.65)
+      this.tone(69, now + 0.11, 0.1, 0.06, 'triangle', 0.7)
+      this.tone(88, now + 0.2, 0.25, 0.045)
+      this.tone(96, now + 0.28, 0.3, 0.025)
+      return
+    }
     const phrases = {
       click: [84], pet: [79,84,88], room: [72,79,84], wash: [84,89,91,96],
       eat: [67,72,76], dress: [84,88,91,96], sleep: [79,76,72],
@@ -93,7 +101,7 @@ export class KittyAudio {
   async close() { this.disable(); if (this.context) await this.context.close().catch(() => {}) }
 }
 
-export function useGameAudio({ muted, sleep, room, showerRunning, vanityPhase, feedingPhase, cookingStage, kitchenDestination, alarmPhase, readingStage, flowersReceived, game }) {
+export function useGameAudio({ muted, sleep, room, showerRunning, vanityPhase, cookingStage, kitchenDestination, alarmPhase, readingStage, flowersReceived, game }) {
   const audioRef = useRef(null)
   useEffect(() => {
     const engine = new KittyAudio()
@@ -119,7 +127,6 @@ export function useGameAudio({ muted, sleep, room, showerRunning, vanityPhase, f
     const timer = setInterval(() => engine.play('wash'), 1800)
     return () => clearInterval(timer)
   }, [showerRunning, vanityPhase])
-  useEffect(() => { if (['eating','chewing','savoring'].includes(feedingPhase)) audioRef.current.play('eat') }, [feedingPhase])
   useEffect(() => { if (kitchenDestination === 'stove') audioRef.current.play('cook') }, [cookingStage, kitchenDestination])
   useEffect(() => { if (alarmPhase === 'ringing') audioRef.current.play('alarm') }, [alarmPhase])
   useEffect(() => { if (readingStage === 'reading') audioRef.current.play('sleep') }, [readingStage])
@@ -131,6 +138,7 @@ export function useGameAudio({ muted, sleep, room, showerRunning, vanityPhase, f
 export function interactionSound(event, audio) {
   const target = event.target.closest('button, [role="button"]')
   if (!target || target.disabled || target.closest('.header-tools')) return
+  if (target.closest('.food-tray-actions')) return
   const label = `${target.getAttribute('aria-label') || ''} ${target.textContent || ''} ${target.getAttribute('class') || ''}`.toLowerCase()
   const kind = /claim|reward|earned/.test(label) ? 'reward'
     : /flower|bouquet|rence/.test(label) ? 'flower'

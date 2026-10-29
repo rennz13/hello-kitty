@@ -25,7 +25,7 @@ export function GardenBench({seated,onSit,visible,flowersGiven,onFlowers,onFlowe
   useEffect(()=>{if(!visible)return;const timer=setInterval(()=>setMessage(randomSweetMessage),6500);return()=>clearInterval(timer)},[visible])
   function talk(event){event?.stopPropagation();if(flowersGiven)onFlowersReturn?.();setMessage(randomSweetMessage)}
   return <div className="garden-bench-area">
-    {visible&&<div className="boy-kitty-speech" key={message} role="status">{sweetWords[message]}<span aria-hidden="true">♡</span></div>}
+    {visible&&<div className="boy-kitty-speech" key={message} role="status"><small className="garden-speaker">Rence</small>{sweetWords[message]}<span aria-hidden="true">♡</span></div>}
     <svg viewBox="0 0 260 260" fill="none">
       {flowersGiven && seated && <g className="garden-couple-hearts" fill="#e0b7d5" stroke="none" opacity=".45"><path d="M120 87Q81 36 73 72Q66 98 120 132Q174 98 167 72Q159 36 120 87Z"/><path d="M70 59Q53 39 48 55Q45 67 70 81Q95 67 92 55Q87 39 70 59Z"/><path d="M195 65Q178 45 173 61Q170 73 195 87Q220 73 217 61Q212 45 195 65Z"/></g>}
       <ellipse cx="132" cy="236" rx="116" ry="8" fill="#9fb792" opacity=".16"/>
