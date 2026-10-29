@@ -3,7 +3,7 @@ import { Food } from './Food'
 
 function Heart() {return <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 16Q10-2 6 18Q1 34 30 53Q59 34 54 18Q50-2 30 16Z" fill="#efb5d5" stroke="#ce98bc" strokeWidth="2"/><path d="M13 20Q13 11 21 13" fill="none" stroke="#fff0fa" strokeWidth="4" strokeLinecap="round"/></svg>}
 function Basket(){return <svg viewBox="0 0 100 80" aria-hidden="true"><path d="M18 35Q19 2 50 2Q81 2 82 35" fill="none" stroke="#c0a0c9" strokeWidth="7"/><path d="M8 32H92L81 73H19Z" fill="#e8d4ef" stroke="#baa0c5" strokeWidth="2.5"/><path d="M16 46H86M21 58H82M31 35L35 71M49 35V71M67 35L64 71" stroke="#d1b5dc" strokeWidth="2"/><rect x="4" y="29" width="92" height="10" rx="5" fill="#f8eafa" stroke="#c6a9d0" strokeWidth="2"/><path d="M50 47Q41 38 39 46Q37 52 50 60Q63 52 61 46Q59 38 50 47Z" fill="#fff4df" stroke="none"/></svg>}
-export function CatchGame({name, onClaim}) {
+export function CatchGame({name, onClaim, audio}) {
   const strawberries = name === 'Strawberry Catch'
   const fieldRef = useRef(null)
   const basketRef = useRef(50)
@@ -28,7 +28,7 @@ export function CatchGame({name, onClaim}) {
       y += dt * (31 + scoreRef.current * 1.2)
       if (y >= 82) {
         caught = Math.abs(x-basketRef.current) < 12
-        if (caught) scoreRef.current += 1
+        if (caught) { scoreRef.current += 1; audio?.current?.play(scoreRef.current >= 10 ? 'reward' : 'game') }
         event += 1
         x = 12 + Math.random()*76
         y = -8
@@ -38,7 +38,7 @@ export function CatchGame({name, onClaim}) {
     }
     raf=requestAnimationFrame(tick)
     return()=>cancelAnimationFrame(raf)
-  },[round])
+  },[round,audio])
   function steer(event) {
     if(won)return
     const rect=event.currentTarget.getBoundingClientRect()

@@ -364,9 +364,9 @@ export function BedBlanket({sleeping, onToggle}) {
   return <div className="bed-blanket-layer"><Art side="right"><CozyBed foreground sleeping={sleeping} onToggle={onToggle}/></Art></div>
 }
 
-export function RoomScenery({room, radioPlaying = false, tvPlaying = false, vanityActive = false, onVanityToggle, homeActivity = 'center', onHomeActivity, reading = false, readingStage = 'idle', onReadingToggle, sleeping = false, onBedToggle, alarmPhase = 'idle', onAlarmRing, onStartGame, mirrorActive = false, ribbonOwned = [], mirrorBow = '#f5a9ce', mirrorDress = '#f5a9ce', onChooseOutfit, onMirrorToggle, onOutsidePlay, outsideSeated = false, onOutsideBench, flowersGiven = false, onGiftComplete}) {
+export function RoomScenery({room, radioPlaying = false, tvPlaying = false, vanityActive = false, onVanityToggle, homeActivity = 'center', onHomeActivity, reading = false, readingStage = 'idle', onReadingToggle, sleeping = false, onBedToggle, alarmPhase = 'idle', onAlarmRing, onStartGame, mirrorActive = false, ribbonOwned = [], mirrorBow = '#f5a9ce', mirrorDress = '#f5a9ce', onChooseOutfit, onMirrorToggle, onOutsidePlay, outsideSeated = false, onOutsideBench, flowersGiven = false, onGiftComplete, onFlowersReturn}) {
  const sofaId = useId().replaceAll(':', '')
- if(room === 'Outside')return <OutsideAdventure bow={mirrorBow} dress={mirrorDress} onPlay={onOutsidePlay} seated={outsideSeated} onBench={onOutsideBench} flowersGiven={flowersGiven} onGiftComplete={onGiftComplete}/>
+ if(room === 'Outside')return <OutsideAdventure bow={mirrorBow} dress={mirrorDress} onPlay={onOutsidePlay} seated={outsideSeated} onBench={onOutsideBench} flowersGiven={flowersGiven} onGiftComplete={onGiftComplete} onFlowersReturn={onFlowersReturn}/>
  let left, right
  switch(room) {
  case 'Kitchen':

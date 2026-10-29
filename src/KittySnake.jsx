@@ -7,7 +7,7 @@ const MiniKitty = memo(function MiniKitty({leader, index}) {
   return <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M10 22L10 7Q18 6 24 15Q30 12 37 15Q43 6 51 7L50 23Q59 33 52 44Q46 53 30 53Q12 53 7 43Q1 32 10 22Z" fill="#fffefa" stroke={leader?'#a18aa6':'#c4b1cb'} strokeWidth="2" strokeLinejoin="round"/><path d="M8 32L1 29M7 38H0M9 44L2 48M52 32L59 29M53 38H60M51 44L58 48" stroke="#b39db7" strokeWidth="1.5"/><ellipse cx="21" cy="33" rx="2" ry="3" fill="#6f6274"/><ellipse cx="40" cy="33" rx="2" ry="3" fill="#6f6274"/><ellipse cx="30" cy="39" rx="3" ry="2" fill="#ead49b"/><path d="M40 15Q30 4 29 14Q28 23 40 20Q51 28 53 17Q54 7 43 15Z" fill={colors[index%colors.length]} stroke="#c5a9c7" strokeWidth="1.5"/><circle cx="41" cy="17" r="4" fill={colors[index%colors.length]} stroke="#c5a9c7"/></svg>
 })
 function readBest(){try{return Number(localStorage.getItem('kitty-snake-best'))||0}catch{return 0}}
-export function KittySnake({onClaim}) {
+export function KittySnake({onClaim,audio}) {
   const [state,setState]=useState(newSnakeGame)
   const [paused,setPaused]=useState(false)
   const [motionBody,setMotionBody]=useState(()=>newSnakeGame().body)
@@ -35,6 +35,8 @@ export function KittySnake({onClaim}) {
       if(time-started>=duration) {
         const previous=stateRef.current
         const next=stepSnake(previous,queue.current.shift()||previous.direction)
+        if(next.score > previous.score) audio?.current?.play('game')
+        if(next.status !== 'playing') audio?.current?.play('sleep')
         stateRef.current=next
         setState(next)
         from=previous.body
@@ -52,7 +54,7 @@ export function KittySnake({onClaim}) {
     }
     raf=requestAnimationFrame(animate)
     return()=>cancelAnimationFrame(raf)
-  },[paused,ended,round])
+  },[paused,ended,round,audio])
   useEffect(()=>{
     if(state.score>best){setBest(state.score);try{localStorage.setItem('kitty-snake-best',String(state.score))}catch{/* Browser storage may be unavailable. */}}
   },[state.score,best])
@@ -62,7 +64,7 @@ export function KittySnake({onClaim}) {
     document.addEventListener('visibilitychange',autoPause)
     return()=>document.removeEventListener('visibilitychange',autoPause)
   },[])
-  function restart(){const next=newSnakeGame();stateRef.current=next;queue.current=[];claimed.current=false;setState(next);setMotionBody(next.body);setRound(value=>value+1);setPaused(false);boardRef.current?.focus()}
+  function restart(){const next=newSnakeGame();audio?.current?.play('game');stateRef.current=next;queue.current=[];claimed.current=false;setState(next);setMotionBody(next.body);setRound(value=>value+1);setPaused(false);boardRef.current?.focus()}
   function claim(){if(claimed.current||!ended||!reward)return;claimed.current=true;onClaim(reward,state.score*5)}
   return <div className="kitty-snake-game">
     <div className="snake-eyebrow">THE STRAWBERRY GARDEN CLUB</div>

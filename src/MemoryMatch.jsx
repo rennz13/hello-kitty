@@ -9,7 +9,7 @@ function CardArt({symbol}) {
   return <svg viewBox="0 0 80 70" aria-hidden="true">{symbol==='kitty'?<g stroke="#ac99b3" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M15 23L15 9L31 20Q41 17 50 20L65 9V25Q78 38 66 52Q39 67 15 52Q2 38 15 23Z" fill="#fffdf7"/><path d="M13 34L4 31M11 41H1M14 48L5 53M68 34L77 31M70 41H79M67 48L76 53"/><ellipse cx="28" cy="38" rx="2.4" ry="3.5" fill="#756579" stroke="none"/><ellipse cx="53" cy="38" rx="2.4" ry="3.5" fill="#756579" stroke="none"/><ellipse cx="40" cy="45" rx="4" ry="2.5" fill="#eedaa0" stroke="none"/><path d="M58 19Q44 5 43 18Q41 30 57 25Q70 34 73 23Q75 10 61 18Z" fill="#dfb8d8"/><circle cx="58" cy="22" r="5" fill="#edcce3"/></g>:symbol==='moon'?<><path d="M46 7A28 28 0 1 0 68 49Q28 52 46 7Z" fill="#f3e1ab" stroke="#cfbc8e" strokeWidth="2"/><path d="m61 10 3 7 8 1-6 5 1 8-6-4-7 4 2-8-6-5 8-1Z" fill="#d9c6eb"/></>:<g stroke="#bca4c9" strokeWidth="1.5"><path d="M40 43V66M40 58Q21 43 19 55Q25 65 40 61" fill="#c4dbbf" stroke="#a5bca0"/>{[0,60,120,180,240,300].map(angle=><ellipse key={angle} cx="40" cy="21" rx="10" ry="15" fill="#e8d4ef" transform={`rotate(${angle} 40 33)`}/>)}<circle cx="40" cy="33" r="11" fill="#f8e8b8" stroke="#d9c697"/></g>}</svg>
 }
 const labels={kitty:'Kitty',bow:'Pastel bow',strawberry:'Strawberry',moon:'Moon',flower:'Little flower',cupcake:'Cupcake'}
-export function MemoryMatch({onClaim}) {
+export function MemoryMatch({onClaim,audio}) {
   const [state,dispatch]=useReducer(memoryReducer,undefined,createMemoryGame)
   const [started,setStarted]=useState(null), [seconds,setSeconds]=useState(0)
   const claimed=useRef(false),firstCard=useRef(null)
@@ -18,9 +18,10 @@ export function MemoryMatch({onClaim}) {
   useEffect(()=>{firstCard.current?.focus()},[])
   useEffect(()=>{
     if(state.flipped.length!==2)return
+    audio?.current?.play(matchedPair ? 'reward' : 'click')
     const timer=setTimeout(()=>dispatch({type:'resolve'}),matchedPair?650:1000)
     return()=>clearTimeout(timer)
-  },[state.flipped,matchedPair])
+  },[state.flipped,matchedPair,audio])
   useEffect(()=>{
     if(started===null||won)return
     const timer=setInterval(()=>setSeconds(Math.floor((Date.now()-started)/1000)),250)

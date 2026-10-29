@@ -3,16 +3,16 @@ import { KittyCharacter } from './KittyCharacter'
 import { Bouquet } from './Bouquet'
 
 const timeline=[
-  {at:0,phase:'hello',speaker:'Boy Kitty',text:'Bby, I picked these for you. I wanted to make you smile.'},
-  {at:2200,phase:'approach',speaker:'Boy Kitty',text:'Bby, I picked these for you. I wanted to make you smile.'},
-  {at:3300,phase:'kneel',speaker:'Boy Kitty',text:'You make even the smallest moments feel special.'},
-  {at:4300,phase:'offer',speaker:'Boy Kitty',text:'You make even the smallest moments feel special.'},
+  {at:0,phase:'hello',speaker:'Rence',text:'Bby, I picked these for you. I wanted to make you smile.'},
+  {at:2200,phase:'approach',speaker:'Rence',text:'Bby, I picked these for you. I wanted to make you smile.'},
+  {at:3300,phase:'kneel',speaker:'Rence',text:'You make even the smallest moments feel special.'},
+  {at:4300,phase:'offer',speaker:'Rence',text:'You make even the smallest moments feel special.'},
   {at:6800,phase:'receive',speaker:'Shilla',text:'They are lovely, bby. Thank you for thinking of me.'},
   {at:9200,phase:'rise',speaker:'Shilla',text:'They are lovely, bby. Thank you for thinking of me.'},
-  {at:10300,phase:'hug',speaker:'Boy Kitty',text:'Come here. I missed holding you.'},
+  {at:10300,phase:'hug',speaker:'Rence',text:'Come here. I missed holding you.'},
   {at:13000,phase:'kiss',speaker:'Shilla',text:'I missed you too. I love you.'},
-  {at:14600,phase:'together',speaker:'Boy Kitty',text:'I love you, bby. Right here is where I want to be.'},
-  {at:17200,phase:'closing',speaker:'Boy Kitty',text:'I love you, bby. Right here is where I want to be.'},
+  {at:14600,phase:'together',speaker:'Rence',text:'I love you, bby. Right here is where I want to be.'},
+  {at:17200,phase:'closing',speaker:'Rence',text:'I love you, bby. Right here is where I want to be.'},
 ]
 const chapters=['hello','offer','receive','hug','kiss','together']
 export function FlowerStory({bow,dress,onFinish}) {
@@ -38,7 +38,7 @@ export function FlowerStory({bow,dress,onFinish}) {
     <div className={`flower-story-caption ${scene.speaker==='Shilla'?'story-girl-speaking':'story-boy-speaking'}`} key={scene.text} role="status"><small>{scene.speaker}</small><p>{scene.text}</p></div>
     <div className="story-characters">
       <div className="story-girl"><i className="story-contact-shadow"/><div className="story-girl-pose"><KittyCharacter bow={bow} dress={dress} gaze="right" happy={received} name="Shilla"/></div></div>
-      <div className="story-boy"><i className="story-contact-shadow"/><div className="story-boy-standing"><KittyCharacter boy bow="#c4d9e9" dress="#c4d9e9" gaze="left" happy={close} name="Boy Kitty"/></div><div className="story-boy-kneeling" aria-hidden="true"><KittyCharacter boy bow="#c4d9e9" dress="#c4d9e9" gaze="left" kneeling name="Boy Kitty"/></div></div>
+      <div className="story-boy"><i className="story-contact-shadow"/><div className="story-boy-standing"><KittyCharacter boy bow="#c4d9e9" dress="#c4d9e9" gaze="left" happy={close} name="Rence"/></div><div className="story-boy-kneeling" aria-hidden="true"><KittyCharacter boy bow="#c4d9e9" dress="#c4d9e9" gaze="left" kneeling name="Rence"/></div></div>
       <div className="story-bouquet"><Bouquet/></div>
       <svg className={`story-hug-arms ${close?'hug-visible':''}`} viewBox="0 0 140 70" aria-hidden="true"><path d="M10 10Q66 65 127 20Q133 14 126 9Q119 6 115 13Q70 40 26 3" fill="#fffefa" stroke="#9f8aa7" strokeWidth="2.5" strokeLinejoin="round"/><path d="M128 45Q75 70 19 38Q12 33 16 27Q22 22 28 29Q80 53 117 35" fill="#fffefa" stroke="#9f8aa7" strokeWidth="2.5"/></svg>
       {scene.phase==='kiss'&&<div className="story-kiss" aria-label="A gentle cheek kiss"><span>♡</span><i>✧</i></div>}
