@@ -1,9 +1,9 @@
 import { BouquetArt } from './Bouquet'
 import { useId } from 'react'
 
-export function KittyCharacter({bow, dress = bow, sleeping, happy, name, seated = false, facingBack = false, annoyed = false, emotion = '', interactive = false, feedingPhase = 'idle', bathing = false, reading = false, fitting = false, boy = false, holdingFlowers = false, kneeling = false, gaze = 'center'}) {
+export function KittyCharacter({full = false, bow, dress = bow, sleeping, happy, name, seated = false, facingBack = false, annoyed = false, emotion = '', interactive = false, feedingPhase = 'idle', bathing = false, reading = false, fitting = false, boy = false, holdingFlowers = false, kneeling = false, gaze = 'center'}) {
   const id = useId().replaceAll(':', '')
-  const sensitiveTouch = emotion === 'ear' || emotion === 'tail' || emotion === 'alarm'
+  const sensitiveTouch = full || emotion === 'ear' || emotion === 'tail' || emotion === 'alarm'
   if (facingBack) return <svg className={`kitty-illustration kitty-back-view ${fitting ? 'kitty-fitting' : ''}`} viewBox="0 0 300 330" role="img" aria-label={`${name || 'Kitty'} ${fitting ? 'checking the fit of her dress in the mirror' : 'facing the TV'}`}>
     <g stroke="#8a768a" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
       <ellipse cx="117" cy="301" rx="27" ry="14" fill="#fffefa"/>
@@ -83,7 +83,7 @@ export function KittyCharacter({bow, dress = bow, sleeping, happy, name, seated 
         <path d="M45 135L18 127M42 154L13 154M48 173L22 183M257 135L282 127M259 154L287 154M253 173L279 183" stroke="#746975" strokeWidth="3"/>
         <ellipse className="kitty-cheek" cx="83" cy="173" rx="17" ry="9" fill={`url(#${id}-blush)`} stroke="none"/>
         <ellipse className="kitty-cheek" cx="218" cy="173" rx="17" ry="9" fill={`url(#${id}-blush)`} stroke="none"/>
-        {bathing || feedingPhase === 'chewing' || feedingPhase === 'savoring' ? <g fill="none" stroke="#756279" strokeWidth="3"><path d="M94 153Q102 143 110 153M191 153Q199 143 207 153"/></g> : sensitiveTouch ? <g className="kitty-sensitive-face">
+        {full ? <g fill="none" stroke="#9e8194" strokeWidth="2.5"><path d="M92 150Q102 160 112 150M189 150Q199 160 209 150"/><ellipse cx="80" cy="174" rx="15" ry="8" fill="#f6ccdf" stroke="none" opacity=".65"/><ellipse cx="221" cy="174" rx="15" ry="8" fill="#f6ccdf" stroke="none" opacity=".65"/>{feedingPhase !== 'eating' && feedingPhase !== 'open' && <path d="M143 190Q150 185 157 190Q150 198 143 190Z" fill="#edc0d3"/>}</g> : bathing || feedingPhase === 'chewing' || feedingPhase === 'savoring' ? <g fill="none" stroke="#756279" strokeWidth="3"><path d="M94 153Q102 143 110 153M191 153Q199 143 207 153"/></g> : sensitiveTouch ? <g className="kitty-sensitive-face">
           <ellipse cx="102" cy="154" rx="5.5" ry="6" fill="#514653" stroke="none"/>
           <ellipse cx="199" cy="154" rx="5.5" ry="6" fill="#514653" stroke="none"/>
           <path d="M91 140L112 147M189 147L210 140" fill="none" stroke="#756279" strokeWidth="3.5"/>

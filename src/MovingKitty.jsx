@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { KittyCharacter } from './KittyCharacter'
 
-export function MovingKitty({destination, bow, dress, sleeping, reaction, name, onPet, message, feedingPhase = 'idle', onCookingStageChange, bathing = false, vanityPhase = 'idle', onReadingStageChange, alarmUpset = false, alarmPhase = 'idle', sleepCorner = false, holdingFlowers = false}) {
+export function MovingKitty({full = false, destination, bow, dress, sleeping, reaction, name, onPet, message, feedingPhase = 'idle', onCookingStageChange, bathing = false, vanityPhase = 'idle', onReadingStageChange, alarmUpset = false, alarmPhase = 'idle', sleepCorner = false, holdingFlowers = false}) {
   const petRef = useRef(null)
   const annoyedTimer = useRef(null)
   const touchTimer = useRef(null)
@@ -150,7 +150,7 @@ export function MovingKitty({destination, bow, dress, sleeping, reaction, name, 
     }} aria-keyshortcuts="H P T E L" aria-label={`Pet ${name || 'Kitty'}${onSofa ? ' on the sofa' : onRadio ? ' in the rocking chair' : ''}`}>
     <div className="kitty-travel-body">
       <div key={reaction} className={reaction && !touchReaction && feedingPhase === 'idle' && !seated && !onTV && !onCounter && !atVanity && !atMirror && !walking ? 'bounce' : ''}>
-        <KittyCharacter holdingFlowers={holdingFlowers} dress={dress} fitting={atMirror && !walking} reading={reading && readingStage === 'reading'} bow={bow} sleeping={sleeping && !walking && feedingPhase === 'idle'} feedingPhase={feedingPhase} bathing={bathing} happy={reaction > 0} name={name} seated={seated && !walking} facingBack={(onTV || atMirror) && !walking} annoyed={annoyed && onTV && !walking} emotion={alarmUpset ? 'alarm' : feedingPhase === 'idle' ? touchReaction : ''} interactive={destination === 'center' && !walking && !sleeping}/>
+        <KittyCharacter full={full} holdingFlowers={holdingFlowers} dress={dress} fitting={atMirror && !walking} reading={reading && readingStage === 'reading'} bow={bow} sleeping={sleeping && !walking && feedingPhase === 'idle'} feedingPhase={feedingPhase} bathing={bathing} happy={reaction > 0} name={name} seated={seated && !walking} facingBack={(onTV || atMirror) && !walking} annoyed={annoyed && onTV && !walking} emotion={alarmUpset ? 'alarm' : feedingPhase === 'idle' ? touchReaction : ''} interactive={destination === 'center' && !walking && !sleeping}/>
       </div>
     </div>
     </button>

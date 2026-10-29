@@ -2163,3 +2163,5 @@ main > .topbar { padding-block: 22px; gap: 24px; }
   .game-layout > aside .stat { gap: 6px; }
   main > header h1 span { letter-spacing: 1px; }
 }
+
+.kitchen-food-selection { margin-top: 16px; }

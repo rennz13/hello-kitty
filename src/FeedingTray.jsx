@@ -3,9 +3,8 @@ import { createPortal } from 'react-dom'
 import { Food } from './Food'
 
 const foods = ['Strawberry', 'Milk', 'Cupcake', 'Apple', 'Cookie', 'Cake', 'Ice cream']
-export function FeedingTray({coins, hunger, onFeed, onPhaseChange}) {
+export function FeedingTray({coins, onFeed, onPhaseChange}) {
   const [drag, setDrag] = useState(null)
-  const [busy, setBusy] = useState(false)
   const current = useRef(null)
   const timer = useRef(null)
 
@@ -34,26 +33,24 @@ export function FeedingTray({coins, hunger, onFeed, onPhaseChange}) {
   function swallow(value) {
     const mouth = mouthPosition()
     if (!mouth) { cancel(); return }
-    setBusy(true)
+    clearTimeout(timer.current)
+    onFeed(value.food, value.cost)
     onPhaseChange('eating')
     update({...value, x: mouth.x, y: mouth.y, swallowing: true})
     timer.current = setTimeout(() => {
-      onFeed(value.food, value.cost)
       update(null)
       onPhaseChange('chewing')
-      timer.current = setTimeout(() => {
-        onPhaseChange('savoring')
-        timer.current = setTimeout(() => { onPhaseChange('idle'); setBusy(false) }, 900)
-      }, 1300)
-    }, 420)
+      timer.current = setTimeout(() => onPhaseChange('idle'), 500)
+    }, 220)
   }
+
   function begin(event, food, cost) {
-    if (event.button !== 0 || busy || current.current || coins < cost || hunger >= 100) return
+    if (event.button !== 0 || coins < cost) return
     clearTimeout(timer.current)
     event.currentTarget.setPointerCapture(event.pointerId)
     const box = event.currentTarget.getBoundingClientRect()
     const lift = event.pointerType === 'touch' ? 34 : 0
-    update({food, cost, x: event.clientX, y: event.clientY - lift, lift, origin: {x: box.left + box.width / 2, y: box.top + box.height / 2}, swallowing: false})
+    update({food, cost, x: event.clientX, y: event.clientY - lift, lift, startX: event.clientX, startY: event.clientY, origin: {x: box.left + box.width / 2, y: box.top + box.height / 2}, swallowing: false})
     onPhaseChange('ready')
   }
   function move(event) {
@@ -65,19 +62,17 @@ export function FeedingTray({coins, hunger, onFeed, onPhaseChange}) {
   function release(event) {
     const value = current.current
     if (!value || value.swallowing || value.returning) return
-    if (nearMouth(value.x, value.y)) swallow(value)
+    if (nearMouth(value.x, value.y) || Math.hypot(event.clientX - value.startX, event.clientY - value.startY) < 10) swallow(value)
     else cancel()
   }
   return <div className="feeding-tray">
-    <p className="feeding-hint" role="status">{busy ? 'Nom nom... that was lovely!' : hunger >= 100 ? 'Kitty is full. Save a treat for later!' : drag?.swallowing ? 'Yummy! A little bite of happiness.' : drag ? 'Bring the treat to her mouth!' : 'Drag a treat to Kitty\u2019s mouth. She\u2019s ready for a bite!'}</p>
-    <div className="actions food-tray-actions">{foods.map((food, index) => <button key={food} className={drag?.food === food ? 'food-picked' : ''} disabled={busy || (Boolean(drag) && drag.food !== food) || coins < 5 + index || hunger >= 100} style={{touchAction: 'none'}} onPointerDown={event => begin(event, food, 5 + index)} onPointerMove={move} onPointerUp={release} onPointerCancel={cancel} onClick={event => {
+
+    <div className="actions food-tray-actions">{foods.map((food, index) => <button key={food} className={drag?.food === food ? 'food-picked' : ''} disabled={coins < 5 + index} style={{touchAction: 'none'}} onPointerDown={event => begin(event, food, 5 + index)} onPointerMove={move} onPointerUp={release} onPointerCancel={cancel} onClick={event => {
       // Enter/Space offers the same feeding animation without dragging.
-      if (event.detail !== 0 || busy || current.current) return
+      if (event.detail !== 0 || coins < 5 + index) return
       const box = event.currentTarget.getBoundingClientRect()
       const value = {food, cost: 5 + index, x: box.left + box.width / 2, y: box.top + box.height / 2}
-      update(value)
-      onPhaseChange('open')
-      timer.current = setTimeout(() => swallow(value), 50)
+      swallow(value)
     }} aria-label={`Feed Kitty ${food}, ${5 + index} coins`}><Food type={food}/>{food}<small>&#x2727; {5 + index}</small></button>)}</div>
     {drag && createPortal(<div className={`dragged-food ${drag.swallowing ? 'food-swallowing' : ''} ${drag.returning ? 'food-returning' : ''}`} style={{left: drag.x, top: drag.y}} aria-hidden="true"><Food type={drag.food}/>{!drag.swallowing && !drag.returning && <span className="food-drag-sparkle" aria-hidden="true">&#x2727;</span>}</div>, document.body)}
   </div>
