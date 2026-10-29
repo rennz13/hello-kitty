@@ -1,0 +1,13 @@
+﻿export function Food({type}) {
+  let art
+  switch(type) {
+    case 'Milk': art=<><path d="M20 8H38L45 20V52H15V20Z" fill="#e3ecf8"/><path d="M20 8L26 20H45M26 20V52" fill="none"/><path d="M15 27H45V44H15" fill="#fffdf8" stroke="none"/><path d="M29 34Q25 28 23 34Q21 38 29 41Q37 38 35 34Q33 28 29 34" fill="#e6c4db" stroke="none"/><path d="M20 8H38" strokeWidth="4"/></>;break
+    case 'Strawberry': art=<><path d="M12 24Q30 9 48 24Q48 42 30 54Q12 42 12 24Z" fill="#f2b3d0"/><path d="M30 20L17 18L24 11L30 16L37 10L43 18Z" fill="#b8d6bb" stroke="#97b69d"/><path d="M30 15V7" stroke="#97b69d"/><path d="M20 28L21 31M30 26V29M40 28L39 31M25 37L26 40M35 37L34 40M30 46V48" stroke="#fff5dd" strokeWidth="2.5"/><path d="M17 26Q15 33 21 38" stroke="#ffe9f3" strokeWidth="3"/></>;break
+    case 'Apple': art=<><path d="M30 20Q12 9 10 28Q7 44 21 51Q27 54 30 50Q35 55 43 49Q55 38 49 24Q45 12 30 20Z" fill="#ecc0d7"/><path d="M30 21Q27 11 32 7" stroke="#b6a186" strokeWidth="3"/><path d="M33 15Q38 3 48 11Q43 21 33 15Z" fill="#bcd9bf" stroke="#9dbba2"/><path d="M17 26Q13 34 18 40" stroke="#fff1f7" strokeWidth="3"/></>;break
+    case 'Cookie': art=<><path d="M28 8Q44 7 50 22Q56 39 43 49Q28 58 15 47Q3 35 10 20Q16 9 28 8Z" fill="#f0dcb9" stroke="#c8b28f"/><circle cx="21" cy="22" r="4" fill="#b9a1bd"/><circle cx="38" cy="18" r="3" fill="#c6b0cb"/><circle cx="36" cy="36" r="4" fill="#b9a1bd"/><circle cx="20" cy="40" r="3" fill="#c6b0cb"/><path d="M13 30H16M29 46H32M43 28H45" stroke="#fff6e4" strokeWidth="3"/></>;break
+    case 'Cake': art=<><path d="M10 24L38 10L51 25V51H10Z" fill="#f4d3e3"/><path d="M10 24H51L38 10Z" fill="#fff6e8"/><path d="M10 34H51M10 44H51" stroke="#fffbf2" strokeWidth="5"/><path d="M10 25Q15 32 19 25Q24 33 29 25Q34 32 38 25Q44 33 51 25" fill="#e1c5e7" stroke="#c6a6cd"/><circle cx="33" cy="15" r="5" fill="#d9afd0"/><path d="M33 10L36 6" stroke="#a1bd9f"/></>;break
+    case 'Ice cream': art=<><path d="M18 31L30 55L43 31Z" fill="#ead5b0" stroke="#c6b08b"/><path d="M22 35L34 47M35 34L26 45" stroke="#d3b98e"/><circle cx="30" cy="23" r="16" fill="#e9c5dd"/><path d="M15 29Q18 37 22 30Q26 38 30 31Q34 38 39 30Q43 35 46 28" fill="#e9c5dd"/><path d="M20 21Q22 14 29 14" stroke="#fff1fa" strokeWidth="3"/><circle cx="34" cy="8" r="5" fill="#cbb5df"/></>;break
+    default: art=<><path d="M15 31L20 52H43L48 31" fill="#d6c5ee"/><path d="M24 34L26 49M36 34L35 49" stroke="#eee4f8"/><path d="M12 31Q10 19 23 19Q25 5 37 15Q48 15 49 31Z" fill="#f5c5dc"/><circle cx="31" cy="12" r="5" fill="#c1addc"/><path d="M20 24L24 23M33 22L36 24M40 28L43 26" stroke="#fff6e4" strokeWidth="2.5"/></>
+  }
+  return <svg viewBox="0 0 60 60" aria-hidden="true"><g stroke="#baa6bd" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">{art}</g></svg>
+}
